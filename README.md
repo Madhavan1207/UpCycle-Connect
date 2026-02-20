@@ -50,8 +50,11 @@ The UI uses a cutting-edge "Glass" aesthetic to ensure the platform feels clean 
 Setup Secrets
 Create a .env file and add: GROQ_API_KEY=your_key.
 
+
 Install & Launch
+
 pip install -r requirements.txt
+
 python app.py
 
 **Developed by Madhavan — Innovating for a cleaner planet**
