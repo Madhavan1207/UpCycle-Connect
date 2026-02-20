@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UpCycle Connect - Dashboard</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/elements.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        /* Custom styles for the AI Chat Window */
+        #ai-window {
+            transition: all 0.3s ease-in-out;
+            transform-origin: bottom right;
+        }
+        #ai-window.d-none {
+            display: none !important;
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        .ai-msg {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px 15px 15px 0;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            max-width: 85%;
+        }
+        .user-msg {
+            background: #00FF87;
+            color: #000;
+            border-radius: 15px 15px 0 15px;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            max-width: 85%;
+            align-self: flex-end;
+        }
+    </style>
+</head>
+
+<body class="dashboard">
+    <nav class="navbar">
+        <div class="nav-logo">
+            <a class="title" href="{{ url_for('dashboard') }}">
+                ♻️UpCycle Connect
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('search')}}">🔍 Search Materials</a>
+            <a href="{{url_for('material')}}">➕ Register Material</a>
+            <a href="{{ url_for('view_requests') }}" class="nav-link">📥 Requests</a>
+            <a class="logout" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container mt-5" style="max-width: 1200px;">
+        <h1 class="text-center mb-5" style="font-weight: 900; color: white; letter-spacing: -1.5px;">
+            Impact <span style="color: #C1F6ED;">Analytics</span>
+        </h1>
+
+        <div class="stats-grid mb-5">
+            <div class="glass-card text-center">
+                <div class="icon-box mb-3">
+                    <i class="fas fa-leaf fa-3x" style="color: #00FF87; filter: drop-shadow(0 0 10px rgba(0,255,135,0.4));"></i>
+                </div>
+                <p class="stat-label">CO₂ Offset</p>
+                <h2 class="stat-value">{{ "{:,.1f}".format(total_co2) }}<small style="font-size: 1.2rem; opacity: 0.8;"> kg</small></h2>
+                <p style="opacity: 0.7; font-size: 0.85rem;">Total ecological footprint saved</p>
+            </div>
+
+            <div class="glass-card text-center">
+                <div class="icon-box mb-3">
+                    <i class="fas fa-recycle fa-3x" style="color: #00D2FF;"></i>
+                </div>
+                <p class="stat-label">Materials Shared</p>
+                <h2 class="stat-value">{{ total_items }}</h2> 
+                <p class="stat-subtext">Resources kept in circulation</p>
+            </div>
+
+            <div class="glass-card text-center">
+                <div class="icon-box mb-3">
+                    <i class="fas fa-bolt fa-3x" style="color: #FFD700;"></i>
+                </div>
+                <p class="stat-label">Eco-Warriors</p>
+                <h2 class="stat-value">{{ active_users }}</h2>
+                <p class="stat-subtext">Active community members</p>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-lg-7">
+                <div class="chart-container-box p-4" style="background: rgba(255,255,255,0.98); border-radius: 30px; min-height: 520px; position: relative;">
+                    <h5 class="text-dark fw-bold mb-4 text-center">Impact Heatmap (CO₂ Savings by Category)</h5>
+                    <div id="no-data-msg" class="text-center py-5 d-none">
+                        <i class="fas fa-chart-pie fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">No impact data yet. Start accepting requests!</p>
+                    </div>
+                    <div style="position: relative; height: 380px; width: 100%;">
+                        <canvas id="impactHeatmap"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="glass-card" style="height: 100%; min-height: 520px; border-radius: 30px; display: flex; flex-direction: column;">
+                    <h5 class="fw-bold mb-4 text-center">
+                        <i class="fas fa-crown text-warning me-2"></i> Top 10 Eco-Warriors
+                    </h5>
+                    <div class="leaderboard-list" style="flex-grow: 1; overflow-y: auto; padding-right: 10px;">
+                        {% for warrior in top_warriors %}
+                        <div class="d-flex align-items-center mb-3 p-3 rounded" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1);">
+                            <div class="rank-badge me-3" style="width: 35px; height: 35px; background: rgba(193, 246, 237, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; color: white;">
+                                {{ loop.index }}
+                            </div>
+                            <div class="flex-grow-1">
+                                <span class="fw-bold" style="font-size: 1.1rem; color: white;">{{ warrior.name }}</span>
+                            </div>
+                            <div class="text-info fw-bold" style="font-size: 1.1rem;">
+                                {{ warrior.total_impact|round(1) }} <small class="opacity-75">kg</small>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="text-center py-5 opacity-50">
+                            <i class="fas fa-user-slash fa-3x mb-3"></i>
+                            <p>No rankings yet!</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ai-btn" class="btn btn-success rounded-circle shadow-lg" style="position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; z-index: 9999; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+        <i class="fas fa-robot fs-3 text-white"></i>
+    </div>
+
+    <div id="ai-window" class="glass-card d-none shadow-lg" style="position: fixed; bottom: 100px; right: 30px; width: 320px; height: 450px; z-index: 9999; display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,0.3); padding: 0; overflow: hidden;">
+        <div class="p-3 bg-success text-white fw-bold d-flex justify-content-between align-items-center">
+            <span>UpCycle Guide AI</span>
+            <i class="fas fa-times" id="close-ai" style="cursor: pointer;"></i>
+        </div>
+        <div id="ai-messages" class="p-3 flex-grow-1 overflow-auto bg-dark d-flex flex-column" style="font-size: 0.9rem; color: #fff;">
+            <div class="ai-msg">Hi! I'm your eco-assistant. Ask me how to save the planet!</div>
+        </div>
+        <div class="p-2 border-top border-secondary bg-dark">
+            <div class="input-group">
+                <input type="text" id="ai-input" class="form-control form-control-sm bg-transparent text-white" placeholder="Type here...">
+                <button id="ai-send" class="btn btn-success btn-sm"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Heatmap Logic ---
+            const rawData = {{ heatmap_values|tojson or [] }};
+            const labels = {{ heatmap_labels|tojson or [] }};
+            const totalDataSum = rawData.reduce((a, b) => a + b, 0);
+
+            if (totalDataSum === 0) {
+                document.getElementById('impactHeatmap').style.display = 'none';
+                document.getElementById('no-data-msg').classList.remove('d-none');
+            } else {
+                const heatmapCtx = document.getElementById('impactHeatmap').getContext('2d');
+                new Chart(heatmapCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: rawData,
+                            backgroundColor: ['#00FF87', '#00D2FF', '#FFD700', '#FF6B6B', '#9B59B6', '#BDC3C7'],
+                            borderWidth: 0,
+                            hoverOffset: 20
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { padding: 25, color: '#333', font: { weight: '600', size: 12 } }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // --- AI Assistant Logic ---
+            const aiBtn = document.getElementById('ai-btn');
+            const aiWindow = document.getElementById('ai-window');
+            const aiMessages = document.getElementById('ai-messages');
+            const aiInput = document.getElementById('ai-input');
+            const aiSend = document.getElementById('ai-send');
+            const closeAi = document.getElementById('close-ai');
+
+            aiBtn.onclick = () => aiWindow.classList.toggle('d-none');
+            closeAi.onclick = () => aiWindow.classList.add('d-none');
+
+            async function chatWithAI() {
+                const text = aiInput.value;
+                if (!text) return;
+
+                aiMessages.innerHTML += `<div class="user-msg">${text}</div>`;
+                aiInput.value = '';
+                aiMessages.scrollTop = aiMessages.scrollHeight;
+
+                try {
+                    const res = await fetch('/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: text })
+                    });
+                    const data = await res.json();
+                    aiMessages.innerHTML += `<div class="ai-msg">${data.reply}</div>`;
+                } catch (err) {
+                    aiMessages.innerHTML += `<div class="ai-msg text-danger">Error connecting to AI.</div>`;
+                }
+                aiMessages.scrollTop = aiMessages.scrollHeight;
+            }
+
+            aiSend.onclick = chatWithAI;
+            aiInput.addEventListener("keypress", (e) => { if (e.key === "Enter") chatWithAI(); });
+        });
+    </script>
+</body>
+</html>

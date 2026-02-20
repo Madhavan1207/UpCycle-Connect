@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  </head>
+  <body class="dashboard">
+      <nav class="navbar">
+    <div class="nav-logo">
+        <a class="title" href="{{ url_for('dashboard') }}">
+        ♻️UpCycle Connect
+        </a>
+    </div>
+    <div class="nav-links">
+        <a href="{{ url_for('search')}}">🔍 Search Materials</a>
+        <a href="{{url_for('material')}}">➕ Register Material</a>
+       <a href="{{ url_for('view_requests') }}" class="nav-link">📥 Requests</a>
+        <a class="logout" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</nav>
+    {% block body  %}
+    
+    {% endblock body %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  </body>
+</html>

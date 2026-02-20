@@ -1,0 +1,18 @@
+# Ignore the Python virtual environment
+.env
+__pycache__/
+env/
+venv/
+
+# Ignore API Keys and secrets
+.env
+secret_key.txt
+
+# Ignore temporary Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore OS-specific junk
+.DS_Store
+Thumbs.db

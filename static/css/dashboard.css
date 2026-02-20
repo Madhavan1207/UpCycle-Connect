@@ -1,0 +1,207 @@
+body {
+  background: linear-gradient(
+    135deg,
+    #C1F6ED 0%,
+    #3FD0C9 25%,
+    #2EAF7D 50%,
+    #449342 75%,
+    #02353C 100%
+  );
+  background-attachment: fixed;
+  background-size: cover;
+  font-family: 'Segoe UI', sans-serif;
+  color: #ffffff;
+}
+
+.navbar {
+    height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: rgba(2, 53, 60, 0.7);
+  backdrop-filter: blur(8px);       
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.title {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #C1F6ED;
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 500;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.logout {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border: 1px solid rgb(171, 33, 33);
+    background-color: rgb(215, 69, 69);
+    padding: 5px 15px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+    margin-right: 25px;
+}
+
+.logout a:hover{
+  color: red
+}
+
+
+.nav-links a:hover {
+  color: #3FD0C9; 
+  transform: translateY(-2px);
+}
+
+.nav-links a.active {
+  color: #2EAF7D; 
+  border-bottom: 2px solid #2EAF7D;
+  padding-bottom: 2px;
+}
+
+.dashboard-card {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.score-grade {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.score-percent {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.score-label {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 70vh;
+}
+
+.custom-form {
+  border: 1px solid #ccc;       
+  border-radius: 8px;        
+  padding: 20px;               
+  width: 400px;                
+  margin: 0 auto;               
+  background-color: #fefae0;
+  color: #004B23;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.form-control {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.modal .container, 
+.modal-dialog, 
+.modal-content {
+    display: block !important; 
+    min-height: auto !important;
+    color: #333333 !important; 
+}
+
+.modal-body {
+    text-align: left !important;
+}
+
+.modal-backdrop {
+    z-index: 1040 !important;
+}
+.modal {
+    z-index: 1050 !important;
+}
+
+/* Glassmorphism Chat Container */
+.chat-container {
+    background: rgba(255, 255, 255, 0.1); /* Very light transparent white */
+    backdrop-filter: blur(12px); /* The Frosted Glass Effect */
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Chat Messages */
+.chat-box {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message {
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 80%;
+}
+
+.user-message {
+    align-self: flex-end;
+    background: #2e7d32; /* Eco Green */
+    color: white;
+}
+
+.ai-message {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.2);
+    color: #333;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Quick Action Buttons */
+.quick-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.action-btn {
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.action-btn:hover {
+    background: #2e7d32;
+    color: white;
+}

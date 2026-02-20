@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<div class="container mt-4">
+    <h2 class="text-white mb-4">Register Raw Material</h2>
+    
+    <form method="POST" action="{{ url_for('material') }}" enctype="multipart/form-data" class="was-validated custom-form p-4 shadow rounded bg-light">
+        
+        <div class="mb-3">
+            <label for="material_name" class="form-label">Material Name</label>
+            <input type="text" class="form-control" id="material_name" name="material_name" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select class="form-select" id="category" name="category" required>
+                <option value="">Select category</option>
+                <option value="Metal">Metal</option>
+                <option value="Plastic">Plastic</option>
+                <option value="Textile">Textile</option>
+                <option value="Paper">Paper</option>
+                <option value="Glass">Glass</option>
+                <option value="Wood">Wood</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input type="number" class="form-control" id="quantity" name="quantity" required />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="unit" class="form-label">Unit</label>
+                <select class="form-select" id="unit" name="unit" required>
+                    <option value="kg">kg</option>
+                    <option value="liters">liters</option>
+                    <option value="pieces">pieces</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="condition" class="form-label">Condition</label>
+            <select class="form-select" id="condition" name="condition">
+                <option value="New">New</option>
+                <option value="Used">Used</option>
+                <option value="Recyclable">Recyclable</option>
+                <option value="Scrap">Scrap</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="location" class="form-label">Location Address (City/Area)</label>
+            <input type="text" class="form-control" id="location" name="location" placeholder="e.g. Thane, Mumbai" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Click on the map to set coordinates</label>
+            <div id="map" style="height: 300px; border: 2px solid #ddd; border-radius: 8px;"></div>
+            <small class="text-muted">Latitude: <span id="display-lat">None</span> | Longitude: <span id="display-lng">None</span></small>
+        </div>
+
+        <input type="hidden" id="latitude" name="latitude">
+        <input type="hidden" id="longitude" name="longitude">
+
+        <div class="mb-3">
+            <label for="image" class="form-label">Upload Image (JPG)</label>
+            <input type="file" class="form-control" id="image" name="image" accept=".jpg,.jpeg" />
+        </div>
+
+        <button type="submit" class="btn btn-success w-100 py-2">Register Material</button>
+    </form>
+</div>
+
+<script>
+    var map = L.map('map').setView([19.0760, 72.8777], 11);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    var marker;
+
+    map.on('click', function(e) {
+        if (marker) {
+            map.removeLayer(marker);
+        }
+    
+        marker = L.marker(e.latlng).addTo(map);
+        
+        document.getElementById('latitude').value = e.latlng.lat;
+        document.getElementById('longitude').value = e.latlng.lng;
+        
+        document.getElementById('display-lat').innerText = e.latlng.lat.toFixed(4);
+        document.getElementById('display-lng').innerText = e.latlng.lng.toFixed(4);
+    });
+</script>
+
+{% endblock body %}

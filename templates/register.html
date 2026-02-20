@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Join the Mission | UpCycle Connect</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="Upcycle">
+    <div class="title">
+        <h1>♻️ UpCycle Connect</h1>
+    </div>
+
+    <div class="container">
+        <form class="custom-form" action="{{ url_for('register') }}" method="POST" id="signup">
+            <h3 class="text-center mb-4" style="color: #00FF87; font-weight: 700;">Join the Mission</h3>
+            
+            <div class="mb-3">
+                <label class="form-label">Full Name</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent border-end-0 text-white-50"><i class="fas fa-user"></i></span>
+                    <input type="text" class="form-control border-start-0" id="name" name="name" value="{{ name or '' }}" placeholder="Eco Warrior" required />
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email ID</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent border-end-0 text-white-50"><i class="fas fa-envelope"></i></span>
+                    <input type="email" class="form-control border-start-0" id="email" name="email" placeholder="abcd@gmail.com" value="{{ email or '' }}" required />
+                </div>
+            </div>
+
+           <div class="row">
+    <div class="col-md-6">
+        <label class="form-label">Password</label>
+        <div class="input-group">
+            <input type="password" class="form-control" name="password" placeholder="••••••••" required>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Confirm</label>
+        <div class="input-group">
+            <input type="password" class="form-control" name="c_password" placeholder="••••••••" required>
+        </div>
+    </div>
+</div>
+
+            {% if error %}
+            <div class="text-danger mt-2 text-center mb-3" style="font-weight: 600; font-size: 0.85rem;">
+               <i class="fas fa-exclamation-triangle"></i> {{ error }}
+            </div>
+            {% endif %}
+
+            <div class="d-grid gap-2 mb-3">
+                <button class="btn btn-success py-2 fw-bold" type="submit" id="sign_up" style="border-radius: 10px; background: #2EAF7D; border: none;">
+                    Create Account <i class="fas fa-leaf ms-2"></i>
+                </button>
+            </div>
+
+            <div class="text-center mt-3" style="font-size: 0.9rem;">
+                Already have an account? <a href="{{ url_for('upcycle_connect') }}" style="color: #00FF87; text-decoration: none; font-weight: 600;">Sign In</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

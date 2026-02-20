@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container mt-4">
+    <h2 class="text-white mb-4">Material Requests</h2>
+
+    <div class="card mb-5 shadow">
+        <div class="card-header bg-success text-white">
+            <h4 class="mb-0">Incoming Requests (To You)</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Material</th>
+                        <th>From</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for req in incoming %}
+                        <tr>
+                            <td>{{ req.material.material_name }}</td>
+                            <td>{{ req.sender_email }}</td>
+                            <td>
+                                <span class="badge {% if req.status == 'Pending' %}bg-warning{% elif req.status == 'Accepted' %}bg-success{% else %}bg-danger{% endif %}">
+                                    {{ req.status }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if req.status == 'Pending' %}
+                                    <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#respond{{req.id}}">Respond</button>
+                                {% else %}
+                                    <span class="text-muted small">Processed: {{ req.reason }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                      <div class="modal fade" id="respond{{req.id}}" tabindex="-1" aria-labelledby="respondLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background-color: white; color: black; border: none; border-radius: 15px;">
+      
+      <form action="{{ url_for('respond_request', request_id=req.id) }}" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title" id="respondLabel" style="color: #02353C;">Respond to Request</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+        <div class="modal-body text-start">
+          <div class="mb-3">
+            <label class="form-label fw-bold">Decision</label>
+            <select name="status" class="form-select">
+              <option value="Accepted">Accept</option>
+              <option value="Rejected">Reject</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold">Message/Contact Details</label>
+            <textarea name="reason" class="form-control w-100" rows="3" placeholder="Enter pickup info..."></textarea>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-success">Save Response</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+                    {% endfor %}
+                    {% if not incoming %}
+                        <tr><td colspan="4" class="text-center text-muted">No incoming requests yet.</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">My Sent Requests</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Material</th>
+                        <th>Owner</th>
+                        <th>Status</th>
+                        <th>Owner's Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for req in outgoing %}
+                        <tr>
+                            <td>{{ req.material.material_name }}</td>
+                            <td>{{ req.owner_email }}</td>
+                            <td>
+                                <span class="badge {% if req.status == 'Pending' %}bg-warning{% elif req.status == 'Accepted' %}bg-success{% else %}bg-danger{% endif %}">
+                                    {{ req.status }}
+                                </span>
+                            </td>
+                            <td>{{ req.reason if req.reason else "Waiting for response..." }}</td>
+                        </tr>
+                    {% endfor %}
+                    {% if not outgoing %}
+                        <tr><td colspan="4" class="text-center text-muted">You haven't sent any requests yet.</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock body %}

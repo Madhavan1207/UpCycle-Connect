@@ -1,0 +1,123 @@
+/* --- 1. Global Background & Layout --- */
+.Upcycle {
+    background: linear-gradient(rgba(2, 53, 60, 0.75), rgba(2, 53, 60, 0.75)), 
+                url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=2013&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 85vh;
+}
+
+/* --- 2. Title & Form Container --- */
+.title h1 {
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    font-size: 55px;
+    font-weight: 800;
+    color: #C1F6ED; 
+    text-align: center;
+    margin-top: 40px;
+    letter-spacing: -1.5px;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.custom-form {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 24px;
+    padding: 40px;
+    width: 450px; /* Slightly wider for the Password row */
+    margin: 0 auto;
+    color: #ffffff !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+/* --- 3. Unified Pill Textboxes --- */
+.input-group {
+    background: #ffffff !important;
+    border-radius: 50px !important;
+    border: 2px solid transparent !important;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    height: 55px;
+}
+
+.input-group:focus-within {
+    border-color: #00FF87 !important;
+    box-shadow: 0 0 12px rgba(0, 255, 135, 0.3) !important;
+}
+
+.input-group-text {
+    background: transparent !important;
+    border: none !important;
+    color: #2EAF7D !important;
+    padding-left: 20px !important;
+}
+
+.form-control {
+    background: transparent !important;
+    border: none !important;
+    color: #02353C !important;
+    text-align: center !important;
+    font-size: 16px;
+    height: 100% !important;
+    padding-right: 45px !important; /* Balances icon for perfect centering */
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.form-control::placeholder {
+    text-align: center !important;
+    color: #999999 !important;
+}
+
+.form-control:focus {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* --- 4. Password & Confirm Row Fix --- */
+/* --- Final Fix: Password & Confirm Row Layout --- */
+.row {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important; /* Prevents them from stacking */
+    gap: 15px !important;
+    margin-bottom: 20px !important;
+    width: 100% !important;
+}
+
+.col-md-6 {
+    flex: 1 1 50% !important; /* Forces them to take exactly half the space */
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Ensure the pill boxes actually show up in the row */
+.row .input-group {
+    width: 100% !important;
+    min-height: 50px !important; /* Prevents the "disappearing" act */
+    background: #ffffff !important;
+    border-radius: 50px !important;
+}
+
+.row .form-control {
+    padding-right: 0px !important; /* Centers text perfectly for short boxes */
+}
+
+.row .form-label {
+    text-align: center !important;
+    width: 100% !important;
+}
