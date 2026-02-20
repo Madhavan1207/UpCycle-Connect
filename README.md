@@ -51,7 +51,6 @@ Setup Secrets
 Create a .env file and add: GROQ_API_KEY=your_key.
 
 Install & Launch
-
 pip install -r requirements.txt
 python app.py
 
