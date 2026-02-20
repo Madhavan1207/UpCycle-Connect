@@ -44,16 +44,25 @@ The UI uses a cutting-edge "Glass" aesthetic to ensure the platform feels clean 
 
 ## 🚀 How to Run Locally
 
-1. **Clone the Repo**
-   ```bash
-   git clone [https://github.com/Madhavan1207/UpCycle-Connect.git](https://github.com/Madhavan1207/UpCycle-Connect.git)
-Setup Secrets
-Create a .env file and add: GROQ_API_KEY=your_key.
+### 1️⃣ Clone the Repo
+```bash
+git clone https://github.com/Madhavan1207/UpCycle-Connect.git
+cd UpCycle-Connect
+```
 
+### 2️⃣ Setup Secrets
+Create a `.env` file in the root directory and add your key:
 
-Install & Launch
-'''bash
+```env
+GROQ_API_KEY=your_actual_key_here
+```
+
+### 3️⃣ Install & Launch
+```bash
 pip install -r requirements.txt
 python app.py
+```
 
-**Developed by Madhavan — Innovating for a cleaner planet**
+---
+
+> **Developed by Madhavan — Innovating for a cleaner planet 🌍**
