@@ -52,8 +52,7 @@ Create a .env file and add: GROQ_API_KEY=your_key.
 
 Install & Launch
 
-Bash
 pip install -r requirements.txt
 python app.py
 
-Developed by Madhavan — Innovating for a cleaner planet
+**Developed by Madhavan — Innovating for a cleaner planet**
